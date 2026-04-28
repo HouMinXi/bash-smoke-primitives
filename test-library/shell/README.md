@@ -209,7 +209,7 @@ The `sleep` duration is script-specific. If the negative test in `primitives_tes
 
 The optional `max_depth` parameter (positional arg 3) limits recursion depth to prevent infinite loops in abnormally deep process trees. Default is 100. On exceeding the limit, a WARNING is emitted and the scan continues without counting as FAIL.
 
-Reliable zombie test fixtures require a non-bash intermediate (bash auto-reaps direct children). The P3 verification uses `python3 subprocess.Popen` for this purpose — see `test_case2_concurrency.sh` for the reference pattern.
+Reliable zombie test fixtures require a non-bash intermediate (bash auto-reaps direct children). Use `python3 subprocess.Popen`, `perl fork`, or a compiled binary as the intermediate.
 
 ## Concurrency Safety
 
@@ -253,10 +253,10 @@ echo "$result" | grep -q '^FAIL:'
 | Tool | Required By | Install |
 |------|------------|---------|
 | `jq` | `assert_json_valid` | `dnf install jq` (RPM-based), `apt install jq` (Debian-based) |
-| `python3` | P3 verification fixtures only | pre-installed on most distributions |
+| `python3` | zombie-detection validation only | pre-installed on most distributions |
 
 Without `jq`, `assert_json_valid` returns SKIP (exit 0, never FAIL).
-`python3` is NOT required by `primitives.sh` itself — only by the P3 verification fixtures that test zombie detection with a non-bash intermediate.
+`python3` is NOT required by `primitives.sh` itself — only when writing zombie-detection tests that need a non-bash intermediate.
 
 ## Secret Security
 

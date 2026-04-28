@@ -205,7 +205,7 @@ Code Change → Step 0: Syntax Pre-Check → Cycle 1 (coder/expert/adversarial)
 
 ## References
 
-- `test-library/shell/primitives.sh` — 15 assertion primitives + 3 helper functions
+- `test-library/shell/primitives.sh` — 16 assertion primitives + 3 helper functions
 - `test-library/shell/primitives_test.sh` — self-tests for every primitive
 - `test-library/shell/README.md` — decision table, safety guide, combination rules, dependencies
 - `references/injection-payloads.md` — common injection attack vectors
