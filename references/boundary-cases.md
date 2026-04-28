@@ -94,21 +94,21 @@ Edge cases that commonly cause bugs in production.
 
 ```bash
 #!/bin/bash
-# Boundary test for kimi-balance.sh
+# Boundary test for example-api.sh
 
 echo "=== Empty key ==="
-KIMI_API_KEY="" ./kimi-balance.sh
+API_KEY="" ./example-api.sh
 echo "Exit code: $?"
 
 echo "=== Whitespace key ==="
-KIMI_API_KEY="   " ./kimi-balance.sh
+API_KEY="   " ./example-api.sh
 echo "Exit code: $?"
 
 echo "=== Invalid JSON response ==="
-response='{"invalid json' ./kimi-balance.sh
+response='{"invalid json' ./example-api.sh
 echo "Exit code: $?"
 
 echo "=== Very long key (10KB) ==="
-KIMI_API_KEY=$(python3 -c "print('x' * 10000)") ./kimi-balance.sh
+API_KEY=$(python3 -c "print('x' * 10000)") ./example-api.sh
 echo "Exit code: $?"
 ```

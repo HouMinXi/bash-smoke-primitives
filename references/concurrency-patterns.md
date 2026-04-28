@@ -271,14 +271,15 @@ After concurrent execution:
 
 ```bash
 #!/bin/bash
-# Concurrency test for kimi-next-key.sh
+# Concurrency test for example-id-tool.sh
 
-STATE_FILE="$HOME/.config/kimi/state"
+STATE_FILE="/tmp/example-id-tool/state"
+mkdir -p "$(dirname "$STATE_FILE")"
 echo "0" > "$STATE_FILE"
 
 echo "=== Test 1: 10 concurrent calls ==="
 for i in {1..10}; do
-    ./kimi-next-key.sh > /dev/null &
+    ./example-id-tool.sh > /dev/null &
 done
 wait
 
@@ -295,7 +296,7 @@ echo "=== Test 2: Lock contention fallback ==="
 HOLDER=$!
 
 # Try to acquire (should fallback)
-output=$(./kimi-next-key.sh 2>&1)
+output=$(./example-id-tool.sh 2>&1)
 if echo "$output" | grep -q "unvalidated fallback"; then
     echo "PASS: fallback triggered"
 else

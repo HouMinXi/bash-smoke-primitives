@@ -90,9 +90,9 @@ assert_output_contains "$output" "expected substring" "flag output"
 ### Concurrent (N instances, zombie-safe)
 
 ```bash
-run_concurrent 5 ./kimi-next-key.sh
+run_concurrent 5 ./my-script.sh
 sleep 0.5                              # wait for child exits, zombie forms
-assert_no_zombie $$ "kimi-next-key"     # detect BEFORE reap
+assert_no_zombie $$ "my-script"        # detect BEFORE reap
 concurrent_wait; cw_status=$?
 assert_success "$cw_status" "concurrent execution"
 # Per-instance diagnostics on failure
@@ -252,8 +252,8 @@ echo "$result" | grep -q '^FAIL:'
 
 | Tool | Required By | Install |
 |------|------------|---------|
-| `jq` | `assert_json_valid` | `dnf install jq` (RHEL/Fedora), `apt install jq` (Debian/Ubuntu) |
-| `python3` | P3 verification fixtures only | pre-installed on RHEL/Fedora |
+| `jq` | `assert_json_valid` | `dnf install jq` (RPM-based), `apt install jq` (Debian-based) |
+| `python3` | P3 verification fixtures only | pre-installed on most distributions |
 
 Without `jq`, `assert_json_valid` returns SKIP (exit 0, never FAIL).
 `python3` is NOT required by `primitives.sh` itself — only by the P3 verification fixtures that test zombie detection with a non-bash intermediate.
