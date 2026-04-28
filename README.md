@@ -47,6 +47,42 @@ This library provides 19 tested, reviewed assertion functions so AI (and humans)
 
 **Safety (1):** `assert_temp_clean`
 
+## Quick Examples
+
+```bash
+source primitives.sh
+
+# --- Execution ---
+run_and_capture ./my-script.sh --verbose
+assert_success "$SMOKE_LAST_STATUS" "my-script --verbose"
+
+run_and_capture ./my-script.sh --bad-flag
+assert_failure "$SMOKE_LAST_STATUS" "my-script rejects bad flag"
+
+# --- Output ---
+output=$(cat "$SMOKE_LAST_STDOUT")
+assert_output_contains "$output" "Processing complete" "verbose output"
+assert_stderr_empty "$(cat "$SMOKE_LAST_STDERR")" "no errors on valid input"
+
+# --- File ---
+assert_file_exists "/tmp/my-script.lock" "lock file created"
+assert_file_contains "/tmp/my-script.log" "ERROR" "error logged"
+
+# --- Security ---
+assert_no_command_exec '$(id)' "injection payload rejected"
+assert_no_path_traversal '../../etc/passwd' "path traversal blocked"
+
+# --- Data ---
+assert_json_valid '{"status":"ok"}' "api response is valid JSON"
+
+# --- Concurrency ---
+run_concurrent 5 ./my-script.sh
+sleep 0.5
+assert_no_zombie $$ "no zombie after concurrent run"
+concurrent_wait
+assert_success "$?" "all concurrent instances passed"
+```
+
 ## Design Principles
 
 1. **Act before Assert** — run the command first (`run_and_capture`), then assert on captured state. Never assert on live `$?`.
